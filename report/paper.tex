@@ -1,0 +1,253 @@
+\documentclass[12pt,leqno]{article}
+
+%----------------------------------------------------------------
+% 1. DOCUMENT SETUP & TYPOGRAPHY
+%----------------------------------------------------------------
+\usepackage{math}
+\usepackage[TS1, T1]{fontenc}               % Font encoding for output
+\usepackage[adobe-utopia]{mathdesign}       % Adobe Utopia font
+\usepackage{microtype}                      % Improves typography (line breaking, spacing)
+\usepackage{setspace}                       % For line spacing control (e.g., \doublespacing)
+\usepackage{soul}                           % For strikethrough and underlining (\ul)
+\usepackage{dirtytalk}                      % For inline quotations
+\usepackage{titling}                        % Control over \maketitle
+\usepackage{epigraph}                       % For epigraphs
+\usepackage{booktabs}                       % Required for importing nice tables
+\usepackage{tcolorbox}                      % Colour box
+\usepackage[ruled,vlined]{algorithm2e}
+\usepackage{float}
+
+\tcbuselibrary{breakable}                   % Required for page breaking
+
+%----------------------------------------------------------------
+% 2. PAGE LAYOUT & LINKS
+%----------------------------------------------------------------
+\usepackage{geometry}                       % For page margins and layout
+\usepackage{pdflscape}                      % For landscape pages
+\usepackage[dvipsnames]{xcolor}             % Color support
+\usepackage[colorlinks=true]{hyperref}      % PDF hyperlinks (should be loaded late)
+
+%----------------------------------------------------------------
+% 3. MATHS & THEOREMS
+%----------------------------------------------------------------
+\usepackage{amsmath}                        % Core maths tools
+
+% Theorem-like environments
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{assumption}{Assumption}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{proposition}{Proposition}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{conjecture}{Conjecture}[section]
+\newenvironment{proof}[1][Proof]{\noindent\textbf{#1.} }{\ \rule{0.5em}{0.5em}}
+
+%----------------------------------------------------------------
+% 4. TABLES, FIGURES & GRAPHICS
+%----------------------------------------------------------------
+\usepackage{graphicx}                       % For including images
+\usepackage{caption, subcaption}            % Enhanced captions for figures and tables
+\usepackage{booktabs}                       % High-quality table rules (\toprule, \midrule, \bottomrule)
+\usepackage{dcolumn}                        % Align table columns on a decimal point
+\usepackage{longtable, threeparttable, threeparttablex} % For long tables and tables with notes
+\usepackage{multirow, adjustbox}            % For multi-row cells and adjusting box content
+\usepackage{rotating}                       % For rotating elements (e.g., sidewaystable)
+\usepackage{tikz}                           % For drawing graphics
+\usetikzlibrary{positioning}
+
+%----------------------------------------------------------------
+% 5. LISTS
+%----------------------------------------------------------------
+\usepackage{enumitem}                       % Advanced control over lists
+
+%----------------------------------------------------------------
+% 6. BIBLIOGRAPHY (Author-Year Style)
+%----------------------------------------------------------------
+\usepackage[
+    backend=biber,      % Use the Biber engine
+    style=authoryear,   % Set main style to author-year
+    citestyle=authoryear-comp, % Compress citations (e.g., Author 2020, 2021)
+    natbib=true,        % Allow use of natbib commands like \citet and \citep
+    maxcitenames=2,     % Max authors to show in citation before "et al."
+    maxbibnames=99,     % Max authors to show in the bibliography
+    uniquelist=false    % Prevents adding initials to distinguish authors
+]{biblatex}
+\addbibresource{bibliography.bib}           % Specify your .bib file
+
+%----------------------------------------------------------------
+% 7. GLOBAL CONFIGURATIONS & SETTINGS
+%----------------------------------------------------------------
+% Page layout & colours
+\geometry{left=1.25in, right=1.25in, top=1.25in, bottom=1.25in}
+\definecolor{maroon}{rgb}{0.5, 0.0, 0.0}
+\hypersetup{
+    urlcolor   = maroon,
+    linkcolor  = maroon,
+    citecolor  = maroon 
+}
+
+% Typesetting adjustments
+\setlength{\parindent}{0pt}
+\interfootnotelinepenalty=10000        
+\setlist[itemize]{noitemsep}
+
+\begin{document}
+%----------------------------------------------------------------
+%% Title
+%----------------------------------------------------------------
+\title{\Large \bfseries \vspace{-5mm} PHD22 Macro labour: Problem set \vspace{-5mm}}
+\author{Rob Włodarski}
+\date{April 2026}
+\maketitle
+
+%------------------------------------------------------------------------
+\section*{Question 1: The model}
+I follow the exposition from \citet{hagedorn_cyclical_2008} wherever possible.
+The Bellman equations that govern the model are:
+\begin{subequations}
+    \begin{align}
+        & J\bp{p} = p - w\bp{p} + \beta \bp{1-s}  \E_p \bs{J\bp{p'}}, \\
+        & V\bp{p} = -c + \beta q \bs{\theta\bp{p}}  \E_p \bs{J\bp{p'}}, \\ 
+        & U\bp{p} = b + \beta \ba{f \bs{\theta\bp{p}} \E_p \bs{W\bp{p'}}  + \bc{1 - f \bs{\theta\bp{p}}}  \E_p \bs{U\bp{p'}}}, \\
+        & W\bp{p} = w\bp{p} + \beta \bc{\bp{1-s} \E_p \bs{W\bp{p'}} + s \E_p \bs{U \bp{p'}} }.
+    \end{align}
+\end{subequations} 
+I use the matching function from \citet{den_haan_job_2000} :
+\begin{equation}
+    m\bp{u,v}= \frac{uv}{\bp{u^l + v^l}^{\frac{1}{l}}},
+\end{equation} 
+which gives the following contact rates:
+\begin{subequations}
+    \begin{align}
+        & q\bs{\theta\bp{p}} = \bs{1+\theta\bp{p}^{l}}^{-\frac{1}{l}}, \label{jfr}\\
+        & f\bs{\theta\bp{p}} = \bs{1+\theta\bp{p}^{-l}}^{-\frac{1}{l}}.
+    \end{align}
+\end{subequations}
+
+\begin{tcolorbox}[sharp corners,breakable, colback=gray!10, colframe=gray!90, title= Free entry condition]
+    The \textbf{free entry condition} stipulates $V\bp{p} = 0$
+    which translates to:
+    \begin{subequations}
+        \begin{align}
+            & c = \beta q\bs{\theta\bp{p}}  \E_p \bs{J\bp{p'}}, \\
+            & J\bp{p} = p - w\bp{p} + \frac{\bp{1-s}c}{ q\bs{\theta\bp{p}}}.
+        \end{align}
+    \end{subequations}
+\end{tcolorbox}
+The free entry condition can be used to derive the job posting condition. 
+In the steady state, where we have only one price, $p=p^{\star}$, the conditions collapse to:
+\begin{subequations}
+        \begin{align}
+            & c = \beta q\bp{\theta^{\star}}  J^{\star} \implies  J^{\star} = \frac{c}{\beta q\bp{\theta^{\star}} }\\
+            & J^{\star} = p^{\star} - w^{\star} + \beta \bp{1-s} J^{\star}  \implies J^{\star} = \frac{p^{\star} - w^{\star}}{1- \beta \bp{1-s}}.
+        \end{align}
+\end{subequations}
+\begin{tcolorbox}[sharp corners,breakable, colback=gray!10, colframe=gray!90, title= Steady state job creation condition]
+    Setting $r \equiv \frac{1}{\beta}-1$, the \textbf{job creation condition} becomes:
+    \begin{equation}
+        w^\star=p^\star - \frac{r+s}{q\bp{\theta^\star}c}. \label{jobcreation}
+    \end{equation}
+\end{tcolorbox}
+
+\begin{tcolorbox}[sharp corners,breakable, colback=gray!10, colframe=gray!90, title= Nash bargaining and surplus sharing]
+    A worker and a firm split the surplus, with workers taking $\gamma$:
+    \begin{subequations}
+        \begin{align}
+            & W\bp{p} = \gamma \bc{J\bp{p}+W\bp{p} - U\bp{p}}, \\
+            & J\bp{p} = \bp{1-\gamma} \bc{J\bp{p}+W\bp{p} - U\bp{p}}.
+        \end{align}
+    \end{subequations}
+\end{tcolorbox}
+Using the surplus sharing condition, I solve for the closed-form solution of $w\bp{p}$:
+\begin{subequations}
+    \begin{align}
+         \bs{W}: \quad &W\bp{p} - \beta \E_p \bs{W\bp{p'}} = w\bp{p} - \beta s \E_p \bs{W\bp{p'} - U\bp{p'}},\\
+         \bs{U}: \quad & U\bp{p} - \beta \E_p \bs{U\bp{p'}} = b + \beta  f\bs{\theta\bp{p}} \E_p \bs{W\bp{p'} - U\bp{p'}},
+    \end{align}
+    which can be combined:
+    \begin{align}
+        & W\bp{p} - U\bp{p} = w\bp{p} - b + \beta \bc{1-s -f\bs{\theta\bp{p}}} \E_p \bs{W\bp{p'} - U\bp{p'}}.
+    \end{align}
+    Now, by Nash bargaining and free entry, we must have that:
+    \begin{align}
+        & W\bp{p} - U\bp{p} = \frac{\gamma}{1-\gamma}J\bp{p} = \frac{\gamma}{1-\gamma} \bs{p - w\bp{p} + \frac{\bp{1-s}c}{ q\bs{\theta\bp{p}}} },\\
+        & \E_p \bs{W\bp{p'} - U\bp{p'}} = \frac{\gamma}{1-\gamma}\E_p  \bs{J\bp{p}}=\frac{\gamma}{1-\gamma}\frac{c}{\beta q\bs{\theta\bp{p}}}.
+    \end{align}
+    The last three conditions can be combined and rearranged to solve for the wage.
+\end{subequations}
+\begin{tcolorbox}[sharp corners,breakable, colback=gray!10, colframe=gray!90, title= Equilibrium wage]
+    By combining the free entry condition with Nash bargaining, I obtain the closed form wage:
+    \begin{equation}
+        w\bp{p} = \gamma \bs{p+\theta\bp{p}c} + \bp{1-\gamma}b. \label{eq_wage}
+    \end{equation}
+\end{tcolorbox}
+\begin{tcolorbox}[sharp corners,breakable, colback=gray!10, colframe=gray!90, title= Beveridge curve]
+    From the law of motion of employment: 
+    \begin{subequations}
+        \begin{align}
+            & n' = \bp{1-s}n + m\bp{v,u}
+        \end{align}
+        I obtain the steady state Beveridge curve:
+        \begin{align}
+            u^\star = \frac{s}{f+s}. \label{beveridge}
+        \end{align}
+    \end{subequations}
+\end{tcolorbox}
+%------------------------------------------------------------------------
+\section*{Question 2: The steady state algorithm}
+
+\begin{algorithm}[H]
+\caption{Calibration of vacancy posting cost to target unemployment} 
+\KwIn{Parameters $(l,\gamma,b,\beta,s,p^\star)$, target unemployment rate $u^\star$}
+\KwOut{Calibrated $c^\star$, equilibrium objects $(\theta^\star,w^\star,q^\star,f^\star,u^\star)$}
+\BlankLine
+\Repeat{$|u - u^\star| < \varepsilon_\kappa$}{
+  \tcp{Inner steady-state problem given $c$}
+  Use the bisection (or alternative) algorithm\;
+  \Repeat{$|q^{n+1} - q^n| < \varepsilon_q$}{
+    Compute implied tightness $\theta$ from Equation \eqref{jfr} \;
+    Compute implied wage $w$ from Equation \eqref{eq_wage} \;
+    Compute $\tilde\theta$ from the job-creation condition, Equation \eqref{jobcreation}  \;
+    Update $q$ by bisection on the residual $|q^{n+1} - q^n|$\;
+  }
+  \tcp{Evaluate calibration target}
+  Compute job-finding rate $f$ from the matching function\;
+  Compute steady-state unemployment $u$ from Equation \eqref{beveridge}\;
+  Update $c$ by bisection on the residual $u - u^\star$\;
+}
+\end{algorithm}
+
+\printbibliography
+\end{document}
+
+
+%------------------------------------------------------------------------
+%Useful Snippets.
+%------------------------------------------------------------------------
+%\section{Own Snippets (Comment Out)}
+%\vspace{3mm}
+%
+%% 1. Code Listing. 
+%\begin{lstlisting}[frame=single,language=Matlab]
+%	An example of Matlab code listing.      
+%\end{lstlisting}
+%
+%% 2. Highlighting.
+%\colorbox{maroon!10}{An example of highlighted text.}	
+%
+%%3. Two Figures Next to Each Other.
+%\begin{figure}[hbt]
+%\centering
+%\begin{subfigure}{.5\textwidth}
+%  \centering
+%  \includegraphics[width=\linewidth]{}
+%  \caption{A}
+%\end{subfigure}%
+%\begin{subfigure}{.5\textwidth}
+%  \centering
+%  \includegraphics[width=\linewidth]{}
+%  \caption{B}
+%\end{subfigure}
+%\caption{Two Figures Next to Each Other}
+%\label{two_figures}
+%\end{figure}	
+
