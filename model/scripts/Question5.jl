@@ -41,7 +41,6 @@ function fnPrintTable4(moments; path = joinpath("tables", "hm_table4.tex"), capt
         write(io, "\\begin{table}[H]\n")
         write(io, "\\centering\n")
         write(io, "\\caption{$caption}\n")
-        write(io, "\\label{tab:hm_table4}\n")
         write(io, "\\begin{tabular}{lcccc}\n")
         write(io, "\\toprule\n")
         write(io, " & \$u\$ & \$v\$ & \$v/u\$ & \$p\$ \\\\\n")
