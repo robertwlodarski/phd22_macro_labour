@@ -11,6 +11,7 @@ include("scripts/Functions.jl")
 include("scripts/Question3.jl")
 include("scripts/Question4.jl")
 include("scripts/Question5.jl")
+include("scripts/Question7.jl")
 
 # 2. Calibrate c to hit target steady-state unemployment (Question 3) 
 @time cˢˢ = fnCalibrateSS!(UsedParameters, SS)
@@ -63,4 +64,12 @@ TabMomentsHM           = fnTable4Moments(AggHM)
 fnPrintTable4(TabMomentsHM; path = joinpath("tables", "hm_table4HM.tex"), caption = "Results from the calibrated model \\citep{hagedorn_cyclical_2008}")
 
 # 6. Grid over (b, γ) for Question 7 
-# [... to be written]
+b⃗           = range(0.25, 0.95; length = 15)
+γ⃗           = range(0.05, 0.90; length = 18)       
+ResExp      = fnSweepBGammaFull(b⃗, γ⃗)
+Pˢˢ         = fnSweepPlotSS(ResExp)
+Pʳⁿᵍ        = fnSweepPlotRange(ResExp)
+Pᵐᵒᵐᵉⁿᵗ     = fnSweepPlotMomentsSimulated(ResExp)
+savefig(Pˢˢ,      "plots/sweep_ss.pdf")
+savefig(Pʳⁿᵍ,   "plots/sweep_range.pdf")
+savefig(Pᵐᵒᵐᵉⁿᵗ, "plots/sweep_moments.pdf")
