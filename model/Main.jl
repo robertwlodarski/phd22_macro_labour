@@ -4,7 +4,7 @@
 # Author: Rob Włodarski
 
 # 1. Packages & load functions 
-using Parameters, QuantEcon, Roots, Random, Statistics, Plots, Printf, LinearAlgebra
+using Parameters, QuantEcon, Roots, Random, Statistics, Plots, Printf, LinearAlgebra, LaTeXStrings
 Threads.nthreads()
 include("scripts/ModelInfrastructure.jl")
 include("scripts/Functions.jl")
@@ -40,6 +40,15 @@ AggAP                   = fnSetUpAggregate(AlternativeParameters)
 @time fnSimulate!(AlternativeParameters, AggAP)
 TabMomentsAlt           = fnTable4Moments(AggAP)   
 fnPrintTable4(TabMomentsAlt; path = joinpath("tables", "hm_table4Alt.tex"), caption = "Results from the calibrated model with more gridpoints")
+
+# More serious treatment of the discretisation issue 
+N⃗ₚ      = [7, 9, 11, 13, 15, 17, 19, 21]
+sweep   = fnSweepNp(cˢˢ, N⃗ₚ)
+plt_σ   = fnPlotDiscretisationStd(sweep)
+savefig(plt_σ, "plots/discretisation_std.pdf")
+
+plt_M   = fnPlotDiscretisationCorr(sweep)
+savefig(plt_M, "plots/discretisation_corr.pdf")
 
 # 5. Hagedorn-Manovskii calibration (Question 6): b = 0.94, γ = 0.052 
 ParamsHM    = fnSetUpParameters(; b = 0.94, γ = 0.052)

@@ -65,3 +65,88 @@ function fnPrintTable4(moments; path = joinpath("tables", "hm_table4.tex"), capt
     end 
     println("Table written to: $path")
 end
+
+# 3. Resolve and resimulate
+function fnSweepNp(cˢˢ, N⃗ₚ; T = 52 * 100)
+    # A. Containers for moments 
+    K       = length(N⃗ₚ)
+    σs      = zeros(K, 4)         # rows: Nₚ values; cols: u, v, v/u, p
+    Ms      = [zeros(4, 4) for _ in 1:K]
+
+    # B. Loop over Nₚ 
+    for (k, Nₚ) in enumerate(N⃗ₚ)
+        @printf "Solving for Nₚ = %d ...\n" Nₚ
+
+        # Rebuild params and aggregate struct with this Nₚ 
+        params  = fnSetUpParameters(Nₚ = Nₚ)
+        Agg     = fnSetUpAggregate(params; T = T)
+
+        # Solve policy and simulate 
+        fnSolveAggregate!(cˢˢ, params, Agg)
+        fnSimulate!(params, Agg)
+
+        # Compute moments 
+        moments = fnTable4Moments(Agg)
+        σs[k, :]    .= moments.σ 
+        Ms[k]       .= moments.M 
+    end 
+
+    return (Nₚ = N⃗ₚ, σ = σs, M = Ms)
+end 
+
+# 3. Standard deviations
+function fnPlotDiscretisationStd(sweep)
+    @unpack Nₚ, σ   = sweep 
+    labels          = [L"u"  L"v"  L"\frac{v}{u}"  L"p"]
+
+    plt     = plot(; 
+                    xlabel      = "Nₚ", 
+                    ylabel      = "Standard deviation", 
+                    framestyle  = :box, 
+                    grid        = true, 
+                    gridalpha   = 0.3,
+                    legend      = :right)
+    for j in 1:4
+        plot!(plt, Nₚ, σ[:, j]; 
+                    label       = labels[j], 
+                    lw          = 2, 
+                    marker      = :circle, 
+                    markersize  = 4)
+    end 
+    return plt 
+end 
+
+# 3. Plot correlations vs Nₚ (6 unique off-diagonal pairs)
+function fnPlotDiscretisationCorr(sweep)
+    @unpack Nₚ, M   = sweep 
+    K               = length(Nₚ)
+
+    # Unique off-diagonal pairs of {u, v, v/u, p}
+    pairs   = [(1,2,L"u,\, v"), (1,3,L"u,\, v/u"), (1,4,L"u,\, p"),
+           (2,3,L"v,\, v/u"), (2,4,L"v,\, p"), (3,4,L"v/u,\, p")]
+
+    plts    = []
+    for (i, j, label) in pairs 
+        corrs   = [M[k][i, j] for k in 1:K]
+        p       = plot(Nₚ, corrs; 
+                        title       = label,
+                        lw          = 2, 
+                        marker      = :square, 
+                        markersize  = 4, 
+                        label       = "", 
+                        framestyle  = :box, 
+                        grid        = true, 
+                        gridalpha   = 0.3,
+                        color       = :maroon,
+                        titlefont   = 12,
+                        yformatter  = y -> @sprintf("%.3f", y))
+        push!(plts, p)
+    end 
+
+    plt     = plot(plts...; 
+                    layout  = (2, 3), 
+                    size    = (900, 500),
+                    xlabel  = "Nₚ",
+                    ylabel  = "")
+    return plt 
+end
