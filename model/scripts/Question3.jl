@@ -14,11 +14,11 @@ function fnPrintSteadyState(params,SS,cˢˢ; path = joinpath("tables", "calibrat
         write(io, "\\label{tab:calibration}\n")
         write(io, "\\begin{tabular}{llr}\n")
         write(io, "\\toprule\n")
-        write(io, "Description & Symbol & Value \\\\\n")
+        write(io, "\\textbf{Description} & \\textbf{Description} & \\textbf{Description} \\\\\n")
         write(io, "\\midrule\n")
 
         # D. Deep parameters 
-        write(io, "\\multicolumn{3}{l}{\\textit{Deep parameters}} \\\\\n")
+        write(io, "\\multicolumn{3}{l}{\\Deep parameters} \\\\\n")
         @printf io "Home production            & \$b\$       & %8.4f \\\\\n"  b 
         @printf io "Discount factor            & \$\\beta\$  & %8.4f \\\\\n"  β 
         @printf io "Separation rate            & \$s\$       & %8.4f \\\\\n"  s 
@@ -28,19 +28,19 @@ function fnPrintSteadyState(params,SS,cˢˢ; path = joinpath("tables", "calibrat
         write(io, "\\midrule\n")
 
         # E. Calibration 
-        write(io, "\\multicolumn{3}{l}{\\textit{Calibration}} \\\\\n")
+        write(io, "\\multicolumn{3}{l}{\\Calibration} \\\\\n")
         @printf io "Target unemployment rate   & \$u^\\star\$ & %8.4f \\\\\n" uₛₛ 
         @printf io "Calibrated vacancy cost    & \$c^\\star\$ & %8.4f \\\\\n" cˢˢ 
         write(io, "\\midrule\n")
 
         # F. Equilibrium objects 
-        write(io, "\\multicolumn{3}{l}{\\textit{Equilibrium objects}} \\\\\n")
-        @printf io "Labour market tightness    & \$\\theta\$ & %8.4f \\\\\n" SS.θ 
-        @printf io "Wage                       & \$w\$       & %8.4f \\\\\n" SS.w 
-        @printf io "Job-filling rate           & \$q\$       & %8.4f \\\\\n" SS.q 
-        @printf io "Job-finding rate           & \$f\$       & %8.4f \\\\\n" SS.f 
-        @printf io "Unemployment rate          & \$u\$       & %8.4f \\\\\n" SS.u 
-        @printf io "Firm value                 & \$J\$       & %8.4f \\\\\n" SS.J 
+        write(io, "\\multicolumn{3}{l}{\\ Equilibrium objects} \\\\\n")
+        @printf io "Labour market tightness    & \$\\theta^\\star\$ & %8.4f \\\\\n" SS.θ 
+        @printf io "Wage                       & \$w^\\star\$       & %8.4f \\\\\n" SS.w 
+        @printf io "Job-filling rate           & \$q^\\star\$       & %8.4f \\\\\n" SS.q 
+        @printf io "Job-finding rate           & \$f^\\star\$       & %8.4f \\\\\n" SS.f 
+        @printf io "Unemployment rate          & \$u^\\star\$       & %8.4f \\\\\n" SS.u 
+        @printf io "Firm value                 & \$J^\\star\$       & %8.4f \\\\\n" SS.J 
 
         # G. Closing 
         write(io, "\\bottomrule\n")
