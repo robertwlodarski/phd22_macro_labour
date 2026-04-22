@@ -42,7 +42,7 @@ TabMomentsAlt           = fnTable4Moments(AggAP)
 fnPrintTable4(TabMomentsAlt; path = joinpath("tables", "hm_table4Alt.tex"), caption = "Results from the calibrated model with more gridpoints")
 
 # More serious treatment of the discretisation issue 
-N⃗ₚ      = [7, 9, 11, 13, 15, 17, 19, 21]
+N⃗ₚ      = [3, 5, 7, 9, 11, 13, 15, 17, 19, 21]
 sweep   = fnSweepNp(cˢˢ, N⃗ₚ)
 plt_σ   = fnPlotDiscretisationStd(sweep)
 savefig(plt_σ, "plots/discretisation_std.pdf")
@@ -54,10 +54,13 @@ savefig(plt_M, "plots/discretisation_corr.pdf")
 ParamsHM    = fnSetUpParameters(; b = 0.94, γ = 0.052)
 SSHM        = fnSetUpSteadyState(ParamsHM)
 AggHM       = fnSetUpAggregate(ParamsHM)
-
-@time cₕₘ = fnCalibrateSS!(ParamsHM, SSHM)
+@time cₕₘ   = fnCalibrateSS!(ParamsHM, SSHM)
 @time fnSolveAggregate!(cₕₘ, ParamsHM, AggHM)
 @time fnSimulate!(ParamsHM, AggHM)
+fnPrintSteadyState(ParamsHM, SSHM, cₕₘ; path = joinpath("tables", "calibration_hm.tex"))
+fnPrintEquilibriumRange(ParamsHM,SSHM,AggHM; path = joinpath("tables", "equilibrium_range_hm.tex")) 
+TabMomentsHM           = fnTable4Moments(AggHM)   
+fnPrintTable4(TabMomentsHM; path = joinpath("tables", "hm_table4HM.tex"), caption = "Results from the calibrated model \\citep{hagedorn_cyclical_2008}")
 
-## 6. Grid over (b, γ) for Question 7 
+# 6. Grid over (b, γ) for Question 7 
 # [... to be written]
