@@ -10,6 +10,7 @@ include("scripts/ModelInfrastructure.jl")
 include("scripts/Functions.jl")
 include("scripts/Question3.jl")
 include("scripts/Question4.jl")
+include("scripts/Question5.jl")
 
 # 2. Calibrate c to hit target steady-state unemployment (Question 3) 
 @time cˢˢ = fnCalibrateSS!(UsedParameters, SS)
@@ -25,12 +26,12 @@ fᵐⁱⁿ = minimum(Agg.f⃗)
 @printf "Lowest  job-finding rate: %.4f\n" fᵐⁱⁿ
 plt2 = fnPlotProductivity(UsedParameters)
 savefig(plt2, "plots/productivity.pdf")
-fnPrintEquilibriumRange(params,SS,Agg) 
+fnPrintEquilibriumRange(UsedParameters,SS,Agg) 
 
 # 4. Simulate and replicate Hagedorn-Manovskii Table 4 (Question 5) 
 @time fnSimulate!(UsedParameters, Agg)
-Tbl = fnTable4(UsedParameters, Agg; burn = 100)
-#fnPrintTable4(Tbl; path = joinpath("tables", "hm_table4.tex"))
+TabMoments = fnTable4Moments(Agg; burn = 52 * 20, λ = 1600)
+fnPrintTable4(TabMoments)
 
 # 5. Hagedorn-Manovskii calibration (Question 6): b = 0.94, γ = 0.052 
 ParamsHM    = fnSetUpParameters(; b = 0.94, γ = 0.052)

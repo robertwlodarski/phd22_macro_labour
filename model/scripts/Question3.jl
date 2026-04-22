@@ -14,7 +14,7 @@ function fnPrintSteadyState(params,SS,cˢˢ; path = joinpath("tables", "calibrat
         write(io, "\\label{tab:calibration}\n")
         write(io, "\\begin{tabular}{llr}\n")
         write(io, "\\toprule\n")
-        write(io, "\\textbf{Description} & \\textbf{Description} & \\textbf{Description} \\\\\n")
+        write(io, "\\textbf{Description} & \\textbf{Symbol} & \\textbf{Value} \\\\\n")
         write(io, "\\midrule\n")
 
         # D. Deep parameters 
