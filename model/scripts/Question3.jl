@@ -18,7 +18,7 @@ function fnPrintSteadyState(params,SS,cˢˢ; path = joinpath("tables", "calibrat
         write(io, "\\midrule\n")
 
         # D. Deep parameters 
-        write(io, "\\multicolumn{3}{l}{\\Deep parameters} \\\\\n")
+        write(io, "\\multicolumn{3}{l}{Deep parameters} \\\\\n")
         @printf io "Home production            & \$b\$       & %8.4f \\\\\n"  b 
         @printf io "Discount factor            & \$\\beta\$  & %8.4f \\\\\n"  β 
         @printf io "Separation rate            & \$s\$       & %8.4f \\\\\n"  s 
@@ -28,13 +28,13 @@ function fnPrintSteadyState(params,SS,cˢˢ; path = joinpath("tables", "calibrat
         write(io, "\\midrule\n")
 
         # E. Calibration 
-        write(io, "\\multicolumn{3}{l}{\\Calibration} \\\\\n")
+        write(io, "\\multicolumn{3}{l}{Calibration} \\\\\n")
         @printf io "Target unemployment rate   & \$u^\\star\$ & %8.4f \\\\\n" uₛₛ 
         @printf io "Calibrated vacancy cost    & \$c^\\star\$ & %8.4f \\\\\n" cˢˢ 
         write(io, "\\midrule\n")
 
         # F. Equilibrium objects 
-        write(io, "\\multicolumn{3}{l}{\\ Equilibrium objects} \\\\\n")
+        write(io, "\\multicolumn{3}{l}{Equilibrium objects} \\\\\n")
         @printf io "Labour market tightness    & \$\\theta^\\star\$ & %8.4f \\\\\n" SS.θ 
         @printf io "Wage                       & \$w^\\star\$       & %8.4f \\\\\n" SS.w 
         @printf io "Job-filling rate           & \$q^\\star\$       & %8.4f \\\\\n" SS.q 
