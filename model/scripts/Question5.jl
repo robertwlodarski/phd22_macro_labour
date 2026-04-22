@@ -110,7 +110,7 @@ function fnPlotDiscretisationStd(sweep)
         plot!(plt, Nₚ, σ[:, j]; 
                     label       = labels[j], 
                     lw          = 2, 
-                    marker      = :circle, 
+                    marker      = :square, 
                     markersize  = 4)
     end 
     return plt 

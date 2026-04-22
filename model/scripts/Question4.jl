@@ -37,7 +37,6 @@ function fnPrintEquilibriumRange(params,SS,Agg; path = joinpath("tables", "equil
 
     # B. Open the file 
     open(path, "w") do io 
-        write(io, "\\begin{table}[H]\n")
         write(io, "\\centering\n")
         write(io, "\\caption{Equilibrium objects across productivity states}\n")
         write(io, "\\begin{tabular}{llccc}\n")
@@ -57,7 +56,6 @@ function fnPrintEquilibriumRange(params,SS,Agg; path = joinpath("tables", "equil
 
         write(io, "\\bottomrule\n")
         write(io, "\\end{tabular}\n")
-        write(io, "\\end{table}\n")
     end 
     println("Table written to: $path")
 end
