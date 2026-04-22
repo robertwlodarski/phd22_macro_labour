@@ -21,7 +21,6 @@ function fnPlotProductivity(params)
                     linecolor   = :match,
                     fillalpha   = 0.6)
     vline!(plt, [params.pₛₛ]; linestyle = :dash, color = :navy, label = "p⋆")
-
     return plt 
 end 
 
@@ -53,7 +52,6 @@ function fnPrintEquilibriumRange(params,SS,Agg; path = joinpath("tables", "equil
         @printf io "Job-filling rate        & \$q\$       & %8.4f & %8.4f & %8.4f \\\\\n" SS.q Agg.q⃗[imin] Agg.q⃗[imax]
         @printf io "Job-finding rate        & \$f\$       & %8.4f & %8.4f & %8.4f \\\\\n" SS.f Agg.f⃗[imin] Agg.f⃗[imax]
         @printf io "Firm value              & \$J\$       & %8.4f & %8.4f & %8.4f \\\\\n" SS.J Agg.J⃗[imin] Agg.J⃗[imax]
-
         write(io, "\\bottomrule\n")
         write(io, "\\end{tabular}\n")
     end 
