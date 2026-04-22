@@ -1,4 +1,4 @@
-\documentclass[12pt,leqno]{article}
+\documentclass[11pt,leqno]{article}
 
 %----------------------------------------------------------------
 % 1. DOCUMENT SETUP & TYPOGRAPHY
@@ -77,7 +77,7 @@
 % 7. GLOBAL CONFIGURATIONS & SETTINGS
 %----------------------------------------------------------------
 % Page layout & colours
-\geometry{left=1.25in, right=1.25in, top=1.25in, bottom=1.25in}
+\geometry{left=1in, right=1in, top=0.75in, bottom=0.75in}
 \definecolor{maroon}{rgb}{0.5, 0.0, 0.0}
 \hypersetup{
     urlcolor   = maroon,
@@ -100,7 +100,7 @@
 \maketitle
 
 %------------------------------------------------------------------------
-\section*{Question 1: The model}
+\section*{Question 1: The DMP model}
 I follow the exposition from \citet{hagedorn_cyclical_2008} wherever possible.
 The Bellman equations that govern the model are:
 \begin{subequations}
@@ -119,7 +119,7 @@ which gives the following contact rates:
 \begin{subequations}
     \begin{align}
         & q\bs{\theta\bp{p}} = \bs{1+\theta\bp{p}^{l}}^{-\frac{1}{l}}, \label{jfr}\\
-        & f\bs{\theta\bp{p}} = \bs{1+\theta\bp{p}^{-l}}^{-\frac{1}{l}}.
+        & f\bs{\theta\bp{p}} = \bs{1+\theta\bp{p}^{-l}}^{-\frac{1}{l}}. \label{jobfindingrate}
     \end{align}
 \end{subequations}
 
@@ -144,7 +144,7 @@ In the steady state, where we have only one price, $p=p^{\star}$, the conditions
 \begin{tcolorbox}[sharp corners,breakable, colback=gray!10, colframe=gray!90, title= Steady state job creation condition]
     Setting $r \equiv \frac{1}{\beta}-1$, the \textbf{job creation condition} becomes:
     \begin{equation}
-        w^\star=p^\star - \frac{r+s}{q\bp{\theta^\star}c}. \label{jobcreation}
+        w^\star=p^\star - \frac{r+s}{q\bp{\theta^\star}}c. \label{jobcreation}
     \end{equation}
 \end{tcolorbox}
 
@@ -192,11 +192,13 @@ Using the surplus sharing condition, I solve for the closed-form solution of $w\
         \end{align}
     \end{subequations}
 \end{tcolorbox}
+\newpage
 %------------------------------------------------------------------------
 \section*{Question 2: The steady state algorithm}
+Algorithm \ref{algorithm_ss} sets out the standard procedure of calibrating a parameter, in this case $c$, in the DMP model. \\
 
 \begin{algorithm}[H]
-\caption{Calibration of vacancy posting cost to target unemployment} 
+\caption{Calibration of vacancy posting cost to target unemployment} \label{algorithm_ss}
 \KwIn{Parameters $(l,\gamma,b,\beta,s,p^\star)$, target unemployment rate $u^\star$}
 \KwOut{Calibrated $c^\star$, equilibrium objects $(\theta^\star,w^\star,q^\star,f^\star,u^\star)$}
 \BlankLine
@@ -210,13 +212,147 @@ Using the surplus sharing condition, I solve for the closed-form solution of $w\
     Update $q$ by bisection on the residual $|q^{n+1} - q^n|$\;
   }
   \tcp{Evaluate calibration target}
-  Compute job-finding rate $f$ from the matching function\;
+  Compute job-finding rate $f$ from the matching function in Equation \eqref{jobfindingrate}\;
   Compute steady-state unemployment $u$ from Equation \eqref{beveridge}\;
   Update $c$ by bisection on the residual $u - u^\star$\;
 }
+\end{algorithm} 
+\vspace{3mm}
+
+However, I compute $c$ directly, as the model allows to construct $c$ as a function of $u$ and remaining parameters. 
+Start by combining the job creation condition and the equilibrium wage from Equations \eqref{jobcreation} and \eqref{eq_wage}:
+\begin{subequations}
+    \begin{align}
+        & \gamma \bp{p^\star+\theta^\star c} + \bp{1-\gamma}b = p^\star - \frac{r+s}{q\bp{\theta^\star}}c
+    \end{align}
+    and rearrange a little bit:
+    \begin{align}
+        & c = \frac{\bp{1-\gamma}}{\frac{r+s}{q\bp{\theta^\star}}+\gamma \theta^\star}.
+    \end{align}
+    $\theta^\star$ and $q\bp{\theta^\star}$ can be obtained from the Beveridge curve in Equation \eqref{beveridge}:
+        \begin{align}
+            & u = \frac{s}{f \bp{\theta^\star}+s}. 
+        \end{align}
+\end{subequations}
+\say{Algorithm} \ref{algorithm_ss_cf} fleshes out the fast way to do it (I abstract from computing a large closed form solution).\\
+
+\begin{algorithm}[H]
+\caption{Calibration of vacancy posting cost (closed form)} \label{algorithm_ss_cf}
+\KwIn{Parameters $(l,\gamma,b,\beta,s,p^\star)$, target unemployment rate $u^\star$}
+\KwOut{Calibrated $c^\star$, equilibrium objects $(\theta^\star,w^\star,q^\star,f^\star)$}
+\BlankLine
+\tcp{Pin down the flow values and tightness}
+Compute job-finding rate $f^\star$ from the Beveridge curve, Equation \eqref{beveridge}\;
+Compute tightness $\theta^\star$ by inverting Equation \eqref{jobfindingrate}\;
+Compute job-filling rate $q^\star$ from Equation \eqref{jfr}\;
+\BlankLine
+\tcp{Free entry and Nash bargaining pin down $c$}
+Jointly solve Equation \eqref{jobcreation} and Equation \eqref{eq_wage} for $c^\star$\;
+Compute equilibrium wage $w^\star$ from Equation \eqref{eq_wage}\;
 \end{algorithm}
+%------------------------------------------------------------------------
+\section*{Question 3: Calibrating c}
+Table \ref{tab:calibration} summarises the calibration exercise.
+The calibrated vacancy cost is relatively high, at around $39\%$ of the productivity value.
+Figure \ref{fig:calibration} indicates that the parameter is well-identified. 
+
+\begin{table}[H] \label{tab:calibration}
+    \input{../model/tables/calibration.tex}    
+\end{table}
+
+\begin{figure}[H] \centering 
+    \caption{Matching $c$ to $u$} \label{fig:calibration} 
+    \includegraphics[width=0.7\columnwidth]{../model/plots/calibration.pdf}
+\end{figure}
+
+%------------------------------------------------------------------------
+\section*{Question 4: Solving the model with aggregate uncertainty}
+
+I use the Rouwenhorst method to discretise the productivity process.
+This is more fitting for the highly persistent process, with $\rho \simeq 0.99$, than the Tauchen method.
+I set $15$ as the number of gridpoints. 
+Table \ref{tab:range} summarises the values of all equilibrium objects at the minimum and maximum productivity grids. 
+Predictably, the job-finding rate varies quite little with the productivity process. 
+
+\begin{table}[H] 
+    \input{../model/tables/equilibrium_range.tex}  \label{tab:range} 
+\end{table}
+
+%------------------------------------------------------------------------
+\section*{Question 5: Towards \citet{hagedorn_cyclical_2008}}
+
+\citet{hagedorn_cyclical_2008}'s Table 4 presents simulation statistics based on the simulation of monthy data, detreneded using the HP filter with a smoothing parameter of $1,600$.\footnote{
+    Am I understading it right? I thought a value of $1,600$ was reserved for the quarterly business cycle variables. 
+}
+My replication is summarised in Table \ref{tab:hm_table4}
+My results are based on a $100$ year simulation ($T=5200$ periods, with a $20$-year burnin). \\
+
+\begin{table}[H] \centering
+    \input{../model/tables/hm_table4.tex}  \label{tab:hm_table4}
+\end{table}
+
+Naturally, I expect the values to depend on three types of variables:
+\begin{itemize}
+    \item $\rho$ and $\sigma$: If one adjusts the productivity process, the business cycle properties will change, too.
+    \item $T$: Setting a too small value of $T$ may mean that we don't visit far ends of each tail.
+    \item $N_p$: A coarse grid may mean that we fail to capture the correlation structure of the key labour variables.
+    Too many grid points means that the tails are too rarely visited (unless $T$ is adjusted).
+\end{itemize}  
+
+For example, I check what happens when the number of grid points is adjusted. 
+Figures \ref{fig:correlation_sensitivity} and \ref{fig:stdev_sensitivity} illustrate how the key correlations and standard deviations change for different numbers of grid points. 
+Unsurprisingly, we cannot solve the Shimer puzzle this way - the volatility of unemployment is quite far from $0.125$.
+
+
+\begin{figure} \centering
+    \caption{Correlation sensitivity to changes in $N_p$}
+    \label{fig:correlation_sensitivity}
+    \includegraphics[width=\columnwidth]{../model/plots/discretisation_corr.pdf}
+\end{figure}
+
+\begin{figure} \centering
+    \caption{Standard deviation sensitivity to changes in $N_p$}
+    \label{fig:stdev_sensitivity}
+    \includegraphics[width=0.8\columnwidth]{../model/plots/discretisation_std.pdf}
+\end{figure}
+
+%------------------------------------------------------------------------
+\section*{Question 6: \citet{hagedorn_cyclical_2008}'s parameters }
+
+\begin{table}[H] \centering 
+    \caption{Steady-state calibration with alternative $\bp{b,\gamma}$}
+    \input{../model/tables/calibration_hm.tex}
+\end{table}
+\begin{table}[H] 
+    \input{../model/tables/equilibrium_range_hm.tex}  \label{tab:range_hm} 
+\end{table}
+
+\begin{table}[H] \centering
+    \input{../model/tables/hm_table4HM.tex}  \label{tab:hm_table4HM}
+\end{table}
+
+%------------------------------------------------------------------------
+\section*{Question 7: Experimentation with $\bp{b,\gamma}$}
+
+\begin{figure}[H] \centering
+    \caption{Experiment: Steady state equilibrium values}
+    \label{fig:sweep_ss}
+    \includegraphics[width=\columnwidth]{../model/plots/sweep_ss.pdf}
+\end{figure}
+\begin{figure}[H] \centering
+    \caption{Experiment: Aggregate uncertainty ranges}
+    \label{fig:sweep_agg}
+    \includegraphics[width=\columnwidth]{../model/plots/sweep_range.pdf}
+\end{figure}
+\begin{figure}[H] \centering
+    \caption{Experiment: Simulation results}
+    \label{fig:sweep_volatility}
+    \includegraphics[width=\columnwidth]{../model/plots/sweep_moments.pdf}
+\end{figure}
 
 \printbibliography
+
+
 \end{document}
 
 

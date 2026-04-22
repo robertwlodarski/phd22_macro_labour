@@ -1,0 +1,142 @@
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 3.3 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated by
+% biber as required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+
+\refsection{0}
+  \datalist[entry]{nyt/global//global/global/global}
+    \entry{den_haan_job_2000}{article}{}{}
+      \name{author}{3}{}{%
+        {{un=0,uniquepart=base,hash=dc81fa0e17fc0a04ad90a073c3b0242e}{%
+           family={Den\bibnamedelima Haan},
+           familyi={D\bibinitperiod\bibinitdelim H\bibinitperiod},
+           given={Wouter\bibnamedelima J},
+           giveni={W\bibinitperiod\bibinitdelim J\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=680571e7512f42f8632ee5dd627c1baa}{%
+           family={Ramey},
+           familyi={R\bibinitperiod},
+           given={Garey},
+           giveni={G\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=9fa0d87de552dc132847ccd9275e15db}{%
+           family={Watson},
+           familyi={W\bibinitperiod},
+           given={Joel},
+           giveni={J\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{language}{1}{%
+        {en}%
+      }
+      \strng{namehash}{cbf6f7125a9ac86b68a32bb4bc1d0401}
+      \strng{fullhash}{c01d872ec2f7a72bc74c2ad1b8963a5f}
+      \strng{fullhashraw}{c01d872ec2f7a72bc74c2ad1b8963a5f}
+      \strng{bibnamehash}{c01d872ec2f7a72bc74c2ad1b8963a5f}
+      \strng{authorbibnamehash}{c01d872ec2f7a72bc74c2ad1b8963a5f}
+      \strng{authornamehash}{cbf6f7125a9ac86b68a32bb4bc1d0401}
+      \strng{authorfullhash}{c01d872ec2f7a72bc74c2ad1b8963a5f}
+      \strng{authorfullhashraw}{c01d872ec2f7a72bc74c2ad1b8963a5f}
+      \field{sortinit}{D}
+      \field{sortinithash}{6f385f66841fb5e82009dc833c761848}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issn}{0002-8282}
+      \field{journaltitle}{American Economic Review}
+      \field{month}{6}
+      \field{number}{3}
+      \field{title}{Job {Destruction} and {Propagation} of {Shocks}}
+      \field{urlday}{21}
+      \field{urlmonth}{4}
+      \field{urlyear}{2026}
+      \field{volume}{90}
+      \field{year}{2000}
+      \field{urldateera}{ce}
+      \field{pages}{482\bibrangedash 498}
+      \range{pages}{17}
+      \verb{doi}
+      \verb 10.1257/aer.90.3.482
+      \endverb
+      \verb{urlraw}
+      \verb https://pubs.aeaweb.org/doi/10.1257/aer.90.3.482
+      \endverb
+      \verb{url}
+      \verb https://pubs.aeaweb.org/doi/10.1257/aer.90.3.482
+      \endverb
+    \endentry
+    \entry{hagedorn_cyclical_2008}{article}{}{}
+      \name{author}{2}{}{%
+        {{un=0,uniquepart=base,hash=a609cd9a27b8400dfed334ba9e26e7b0}{%
+           family={Hagedorn},
+           familyi={H\bibinitperiod},
+           given={Marcus},
+           giveni={M\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=5e1bd7620a9fcee3977a07813e3f27cb}{%
+           family={Manovskii},
+           familyi={M\bibinitperiod},
+           given={Iourii},
+           giveni={I\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{language}{1}{%
+        {en}%
+      }
+      \strng{namehash}{956dd69c3205cf169b9a0fedfa81cd2a}
+      \strng{fullhash}{956dd69c3205cf169b9a0fedfa81cd2a}
+      \strng{fullhashraw}{956dd69c3205cf169b9a0fedfa81cd2a}
+      \strng{bibnamehash}{956dd69c3205cf169b9a0fedfa81cd2a}
+      \strng{authorbibnamehash}{956dd69c3205cf169b9a0fedfa81cd2a}
+      \strng{authornamehash}{956dd69c3205cf169b9a0fedfa81cd2a}
+      \strng{authorfullhash}{956dd69c3205cf169b9a0fedfa81cd2a}
+      \strng{authorfullhashraw}{956dd69c3205cf169b9a0fedfa81cd2a}
+      \field{sortinit}{H}
+      \field{sortinithash}{23a3aa7c24e56cfa16945d55545109b5}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{Recently, a number of authors have argued that the standard search model cannot generate the observed business-cycle-frequency fluctuations in unemployment and job vacancies, given shocks of a plausible magnitude. We propose a new calibration strategy of the standard model that uses data on the cost of vacancy creation and cyclicality of wages to identify the two key parameters –- the value of nonmarket activity and the bargaining weights. Our calibration implies that the model is consistent with the data. (JEL E24, E32, J31, J63, J64)}
+      \field{issn}{0002-8282}
+      \field{journaltitle}{American Economic Review}
+      \field{month}{8}
+      \field{number}{4}
+      \field{title}{The {Cyclical} {Behavior} of {Equilibrium} {Unemployment} and {Vacancies} {Revisited}}
+      \field{urlday}{21}
+      \field{urlmonth}{4}
+      \field{urlyear}{2026}
+      \field{volume}{98}
+      \field{year}{2008}
+      \field{urldateera}{ce}
+      \field{pages}{1692\bibrangedash 1706}
+      \range{pages}{15}
+      \verb{doi}
+      \verb 10.1257/aer.98.4.1692
+      \endverb
+      \verb{urlraw}
+      \verb https://pubs.aeaweb.org/doi/10.1257/aer.98.4.1692
+      \endverb
+      \verb{url}
+      \verb https://pubs.aeaweb.org/doi/10.1257/aer.98.4.1692
+      \endverb
+    \endentry
+  \enddatalist
+\endrefsection
+\endinput
+
