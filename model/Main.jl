@@ -33,6 +33,14 @@ fnPrintEquilibriumRange(UsedParameters,SS,Agg)
 TabMoments = fnTable4Moments(Agg; burn = 52 * 20, λ = 1600)
 fnPrintTable4(TabMoments)
 
+# Discretisation issue
+AlternativeParameters   = fnSetUpParameters(Nₚ = 21)
+AggAP                   = fnSetUpAggregate(AlternativeParameters)
+@time fnSolveAggregate!(cˢˢ, AlternativeParameters, AggAP)
+@time fnSimulate!(AlternativeParameters, AggAP)
+TabMomentsAlt           = fnTable4Moments(AggAP)   
+fnPrintTable4(TabMomentsAlt; path = joinpath("tables", "hm_table4Alt.tex"), caption = "Results from the calibrated model with more gridpoints")
+
 # 5. Hagedorn-Manovskii calibration (Question 6): b = 0.94, γ = 0.052 
 ParamsHM    = fnSetUpParameters(; b = 0.94, γ = 0.052)
 SSHM        = fnSetUpSteadyState(ParamsHM)
@@ -41,7 +49,6 @@ AggHM       = fnSetUpAggregate(ParamsHM)
 @time cₕₘ = fnCalibrateSS!(ParamsHM, SSHM)
 @time fnSolveAggregate!(cₕₘ, ParamsHM, AggHM)
 @time fnSimulate!(ParamsHM, AggHM)
-#TblHM = fnTable4(ParamsHM, AggHM; burn = 100)
 
 ## 6. Grid over (b, γ) for Question 7 
 # [... to be written]
