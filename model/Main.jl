@@ -8,10 +8,13 @@ using Parameters, QuantEcon, Roots, Random, Statistics, Plots, Printf
 Threads.nthreads()
 include("scripts/ModelInfrastructure.jl")
 include("scripts/Functions.jl")
+include("scripts/Question3.jl")
 
 ## 2. Calibrate c to hit target steady-state unemployment (Question 3) 
 @time cˢˢ = fnCalibrateSS!(UsedParameters, SS)
-#fnPrintSteadyState(UsedParameters, SS) 
+fnPrintSteadyState(UsedParameters, SS, cˢˢ)
+plt = fnPlotCalibration(UsedParameters, SS, cˢˢ)
+savefig(plt, "plots/calibration.pdf")
 
 ## 3. Solve the model with aggregate uncertainty (Question 4) 
 @time fnSolveAggregate!(cˢˢ, UsedParameters, Agg)
