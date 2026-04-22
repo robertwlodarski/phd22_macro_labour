@@ -72,11 +72,12 @@ function fnPlotCalibration(params,SS,cˢˢ; N = 200, factor = 3.0)
                     label       = "u(c)",
                     lw          = 2,
                     legend      = :bottomright,
+                    color       = :maroon,
                     framestyle  = :box,
                     grid        = true)
-    hline!(plt, [uₛₛ]; linestyle = :dash, color = :red, label = "u⋆ = $(round(uₛₛ, digits=3))")
-    vline!(plt, [cˢˢ]; linestyle = :dash, color = :red, label = "c⋆ = $(round(cˢˢ, digits=3))")
-    scatter!(plt, [cˢˢ], [uₛₛ]; color = :red, markersize = 6, label = "")
+    hline!(plt, [uₛₛ]; linestyle = :dash, color = :navy, label = "u⋆ = $(round(uₛₛ, digits=3))")
+    vline!(plt, [cˢˢ]; linestyle = :dash, color = :navy, label = "c⋆ = $(round(cˢˢ, digits=3))")
+    scatter!(plt, [cˢˢ], [uₛₛ]; color = :navy, markersize = 6, label = "")
 
     return plt 
 end
