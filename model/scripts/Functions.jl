@@ -67,7 +67,7 @@ end
 # 1. Equilibrium
 function fnEquilibrium!(p,c,params,SS=nothing)
     # A. Unpacking business 
-    @unpack β, s, δᵍ    = params 
+    @unpack β, s, δᵍ,γ,b    = params 
 
     # B. Define the residual in q implied by JCC + Nash bargaining
     function fnResidualq(q)
@@ -76,16 +76,19 @@ function fnEquilibrium!(p,c,params,SS=nothing)
         q̃       = c * (1 - β * (1 - s)) / (β * (p - w))
         return q - q̃  
     end 
+    # C. Lower bracket: need w < p for positive profits 
+    θ̅       = (1 - γ) * (p - b) / (γ * c)
+    q̲       = fnq(θ̅, params) * 1.001              # just inside the feasible regi
 
-    # C. Solve 
-    q       = find_zero(fnResidualq, (1e-6, 1 - 1e-6), Roots.Brent(); xatol = δᵍ)
+    # D. Solve 
+    q       = find_zero(fnResidualq, (q̲, 1 - 1e-6), Roots.Brent(); xatol = δᵍ)
 
-    # D. Recover all equilibrium objects 
+    # E. Recover all equilibrium objects 
     θ       = fnqInverse(q,params)
     w       = fnW(p,θ,c,params)
     f       = fnf(θ,params)
 
-    # E. Update SS struct if provided 
+    # F. Update SS struct if provided 
     if !isnothing(SS)
         SS.q    = q 
         SS.θ    = θ 
@@ -104,7 +107,7 @@ function fnResidualSS!(c,params,SS=nothing)
     @unpack pₛₛ, uₛₛ    = params
 
     # B. Solve inner fixed point at steady-state productivity 
-    _, _, _, f          = fnEquilibrium(pₛₛ,c,params,SS)
+    _, _, _, f          = fnEquilibrium!(pₛₛ,c,params,SS)
 
     # C. Implied unemployment from Beveridge curve 
     u                   = fnSteadyStateU(f,params)
@@ -124,13 +127,30 @@ end
 # 3. Steady state calibration: find c that hits target unemployment 
 function fnCalibrateSS!(params,SS)
     # A. Unpacking business 
-    @unpack c̲, c̅, δᶜ    = params 
+    @unpack β, s, γ, b, pₛₛ, uₛₛ   = params
 
-    # B. Solve for c that zeroes the unemployment residual 
-    c       = find_zero(c -> fnResidualSS!(c,params,SS), (c̲, c̅), Roots.Brent(); xatol = δᶜ)
+    # B. Target implies (f, θ, q) independently of c 
+    f       = s * (1 - uₛₛ) / uₛₛ 
+    θ       = fnfInverse(f, params)
+    q       = fnq(θ, params)
 
-    # C. Final call to populate SS at the solved c 
-    fnResidualSS!(c,params,SS)
+    # C. Closed-form c from free entry + Nash bargaining 
+    c       = q * β * (1 - γ) * (pₛₛ - b) / ((1 - β * (1 - s)) + q * β * γ * θ)
+
+    # D. Recover wage and J 
+    w       = fnW(pₛₛ, θ, c, params)
+    J       = (pₛₛ - w) / (1 - β * (1 - s))
+
+    # E. Update SS struct 
+    SS.c    = c 
+    SS.q    = q 
+    SS.θ    = θ 
+    SS.f    = f 
+    SS.w    = w 
+    SS.J    = J 
+    SS.u    = uₛₛ 
+    SS.εᶜ   = 0.0 
+
     return c 
 end
 
