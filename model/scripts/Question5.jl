@@ -38,8 +38,6 @@ function fnPrintTable4(moments; path = joinpath("tables", "hm_table4.tex"), capt
     @unpack σ, ρ, M     = moments 
 
     open(path, "w") do io 
-        write(io, "\\begin{table}[H]\n")
-        write(io, "\\centering\n")
         write(io, "\\caption{$caption}\n")
         write(io, "\\begin{tabular}{lcccc}\n")
         write(io, "\\toprule\n")
@@ -60,7 +58,6 @@ function fnPrintTable4(moments; path = joinpath("tables", "hm_table4.tex"), capt
 
         write(io, "\\bottomrule\n")
         write(io, "\\end{tabular}\n")
-        write(io, "\\end{table}\n")
     end 
     println("Table written to: $path")
 end

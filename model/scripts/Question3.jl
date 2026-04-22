@@ -8,10 +8,8 @@ function fnPrintSteadyState(params,SS,cˢˢ; path = joinpath("tables", "calibrat
     open(path, "w") do io 
 
         # C. Preamble 
-        write(io, "\\begin{table}[H]\n")
         write(io, "\\centering\n")
         write(io, "\\caption{Steady-state calibration}\n")
-        write(io, "\\label{tab:calibration}\n")
         write(io, "\\begin{tabular}{llr}\n")
         write(io, "\\toprule\n")
         write(io, "\\textbf{Description} & \\textbf{Symbol} & \\textbf{Value} \\\\\n")
@@ -45,7 +43,6 @@ function fnPrintSteadyState(params,SS,cˢˢ; path = joinpath("tables", "calibrat
         # G. Closing 
         write(io, "\\bottomrule\n")
         write(io, "\\end{tabular}\n")
-        write(io, "\\end{table}\n")
     end 
     println("Table written to: $path")
 end
