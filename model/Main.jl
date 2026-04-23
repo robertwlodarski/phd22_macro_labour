@@ -47,9 +47,16 @@ N⃗ₚ      = [3, 5, 7, 9, 11, 13, 15, 17, 19, 21]
 sweep   = fnSweepNp(cˢˢ, N⃗ₚ)
 plt_σ   = fnPlotDiscretisationStd(sweep)
 savefig(plt_σ, "plots/discretisation_std.pdf")
-
 plt_M   = fnPlotDiscretisationCorr(sweep)
 savefig(plt_M, "plots/discretisation_corr.pdf")
+
+# Do the same for ρ
+ρ⃗ₚ = collect(0.7:0.01:0.99)
+sweep²  = fnSweepRho(cˢˢ, ρ⃗ₚ; T = 52 * 100)
+plt_σ2  = fnPlotDiscretisationStdRho(sweep²)
+savefig(plt_σ2, "plots/discretisation_std_rho.pdf")
+plt_M2 = fnPlotDiscretisationCorrRho(sweep²)
+savefig(plt_M2, "plots/discretisation_corr_rho.pdf")
 
 # 5. Hagedorn-Manovskii calibration (Question 6): b = 0.94, γ = 0.052 
 ParamsHM    = fnSetUpParameters(; b = 0.94, γ = 0.052)
