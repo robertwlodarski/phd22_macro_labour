@@ -266,7 +266,7 @@ Figure \ref{fig:calibration} indicates that the parameter is well-identified.
 \end{figure}
 
 %------------------------------------------------------------------------
-\section*{Question 4: Solving the model with aggregate uncertainty}
+\section*{Question 4: Solving the model with aggregate uncertainty} \label{q4}
 
 I use the Rouwenhorst method to discretise the productivity process.
 This is more fitting for the highly persistent process, with $\rho \simeq 0.99$, than the Tauchen method.
@@ -319,26 +319,51 @@ Unsurprisingly, we cannot solve the Shimer puzzle this way - the volatility of u
 %------------------------------------------------------------------------
 \section*{Question 6: \citet{hagedorn_cyclical_2008}'s parameters }
 
+Table \ref{tab:q6_eq} features the calibrated value of $c$ and the equilibrium outcomes under \citet{hagedorn_cyclical_2008}'s values of $b$ and $\gamma$.
+The equilibrium wage is slightly lower, implying a moderately higher firm value in this case.
+The job filling and finding rates are still the same, being pinned down by the unemployment rate which is held constant throughout the problem set. \\
+
 \begin{table}[H] \centering 
     \caption{Steady-state calibration with alternative $\bp{b,\gamma}$}
-    \input{../model/tables/calibration_hm.tex}
+    \input{../model/tables/calibration_hm.tex}\label{tab:q6_eq}
 \end{table}
-\begin{table}[H] 
+
+Table \ref{tab:range_hm} redoes Question 4. 
+Now, labour market tightness moves much more across different productivity states. 
+Wage moves almost as little as before. 
+What matters for us is that the job filling and finding rates vary much more, which is necessary to generate higher dispersion in unemployment. 
+
+\begin{table}[H]  \centering
+    \caption{Equilibrium objects across productivity states under alternative $\bp{b,\gamma}$}
     \input{../model/tables/equilibrium_range_hm.tex}  \label{tab:range_hm} 
 \end{table}
 
+Table \ref{tab:hm_table4HM} redoes Question 5. 
+I don't yet match the standard deviation from either the US data or \citet{hagedorn_cyclical_2008}, but my productivity process is much less volatile than in their case. 
+
 \begin{table}[H] \centering
+    \caption{Results from the calibrated model under alternative $\bp{b,\gamma}$}
     \input{../model/tables/hm_table4HM.tex}  \label{tab:hm_table4HM}
 \end{table}
 
 %------------------------------------------------------------------------
 \section*{Question 7: Experimentation with $\bp{b,\gamma}$}
+In this question, I recompute the steady state and aggregate uncertainty versions of the model under alternative $\bp{b,\gamma}$ values. 
+In each figure, the horizontal axis sets a different $b$, between $0.25$ and $0.95$.
+Then, different plots represent alternative values of $\gamma$, ranging between $0.05$ and $0.95$.\\
+
+Figure \ref{fig:sweep_ss}'s first panel illustrates different values of $c^\star$ (calibrated).
+The second and third panel show wages and firm values. 
+At a low bargaining power parameter and a low unemployment benefit, $c^\star$ rises and $w^\star$ falls to ensure there is still the $5.5\%$ unemployment rate.
 
 \begin{figure}[H] \centering
     \caption{Experiment: Steady state equilibrium values}
     \label{fig:sweep_ss}
     \includegraphics[width=\columnwidth]{../model/plots/sweep_ss.pdf}
 \end{figure}
+
+Figure \ref{fig:sweep_agg} highlights how the ranges between the hig
+
 \begin{figure}[H] \centering
     \caption{Experiment: Aggregate uncertainty ranges}
     \label{fig:sweep_agg}
