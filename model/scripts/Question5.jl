@@ -90,7 +90,7 @@ function fnSweepNp(cˢˢ, N⃗ₚ; T = 52 * 100)
     return (Nₚ = N⃗ₚ, σ = σs, M = Ms)
 end 
 
-# 3. Standard deviations
+# 4. Standard deviations
 function fnPlotDiscretisationStd(sweep)
     @unpack Nₚ, σ   = sweep 
     labels          = [L"u"  L"v"  L"\frac{v}{u}"  L"p"]
@@ -112,7 +112,7 @@ function fnPlotDiscretisationStd(sweep)
     return plt 
 end 
 
-# 3. Plot correlations vs Nₚ (6 unique off-diagonal pairs)
+# 5. Plot correlations vs Nₚ (6 unique off-diagonal pairs)
 function fnPlotDiscretisationCorr(sweep)
     @unpack Nₚ, M   = sweep 
     K               = length(Nₚ)
@@ -143,6 +143,92 @@ function fnPlotDiscretisationCorr(sweep)
                     layout  = (2, 3), 
                     size    = (900, 500),
                     xlabel  = "Nₚ",
+                    ylabel  = "")
+    return plt 
+end
+
+# 6. Resolve and resimulate
+function fnSweepRho(cˢˢ, ρ⃗ₚ; T = 52 * 100)
+    # A. Containers for moments 
+    K       = length(ρ⃗ₚ)
+    σs      = zeros(K, 4)         
+    Ms      = [zeros(4, 4) for _ in 1:K]
+
+    # B. Loop over Nₚ 
+    for (k, ρ) in enumerate(ρ⃗ₚ)
+        @printf "Solving for ρ = %d ...\n" ρ
+
+        # Rebuild params and aggregate struct with 
+        params  = fnSetUpParameters(ρ = ρ)
+        Agg     = fnSetUpAggregate(params; T = T)
+
+        # Solve policy and simulate 
+        fnSolveAggregate!(cˢˢ, params, Agg)
+        fnSimulate!(params, Agg)
+
+        # Compute moments 
+        moments = fnTable4Moments(Agg)
+        σs[k, :]    .= moments.σ 
+        Ms[k]       .= moments.M 
+    end 
+
+    return (ρ⃗ₚ = ρ⃗ₚ, σ = σs, M = Ms)
+end 
+
+
+# 7. Standard deviations for rho
+function fnPlotDiscretisationStdRho(sweep)
+    @unpack ρ⃗ₚ, σ   = sweep 
+    labels          = [L"u"  L"v"  L"\frac{v}{u}"  L"p"]
+
+    plt     = plot(; 
+                    xlabel      = "ρ", 
+                    ylabel      = "Standard deviation", 
+                    framestyle  = :box, 
+                    grid        = true, 
+                    gridalpha   = 0.3,
+                    legend      = :left)
+    for j in 1:4
+        plot!(plt, ρ⃗ₚ, σ[:, j]; 
+                    label       = labels[j], 
+                    lw          = 2, 
+                    marker      = :square, 
+                    markersize  = 4)
+    end 
+    return plt 
+end 
+
+# 8. Plot correlations vs ρ (6 unique off-diagonal pairs)
+function fnPlotDiscretisationCorrRho(sweep)
+    @unpack ρ⃗ₚ, M   = sweep 
+    K               = length(ρ⃗ₚ)
+
+    # Unique off-diagonal pairs of {u, v, v/u, p}
+    pairs   = [(1,2,L"u,\, v"), (1,3,L"u,\, v/u"), (1,4,L"u,\, p"),
+           (2,3,L"v,\, v/u"), (2,4,L"v,\, p"), (3,4,L"v/u,\, p")]
+
+    plts    = []
+    for (i, j, label) in pairs 
+        corrs   = [M[k][i, j] for k in 1:K]
+        p       = plot(ρ⃗ₚ, corrs; 
+                        title       = label,
+                        lw          = 2, 
+                        marker      = :square, 
+                        markersize  = 4, 
+                        label       = "", 
+                        framestyle  = :box, 
+                        grid        = true, 
+                        gridalpha   = 0.3,
+                        color       = :maroon,
+                        titlefont   = 12,
+                        yformatter  = y -> @sprintf("%.3f", y))
+        push!(plts, p)
+    end 
+
+    plt     = plot(plts...; 
+                    layout  = (2, 3), 
+                    size    = (900, 500),
+                    xlabel  = "ρ",
                     ylabel  = "")
     return plt 
 end
