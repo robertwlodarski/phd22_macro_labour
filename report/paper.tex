@@ -227,7 +227,7 @@ Start by combining the job creation condition and the equilibrium wage from Equa
     \end{align}
     and rearrange a little bit:
     \begin{align}
-        & c = \frac{\bp{1-\gamma}}{\frac{r+s}{q\bp{\theta^\star}}+\gamma \theta^\star}.
+        & c = \frac{\bp{1-\gamma}b}{\frac{r+s}{q\bp{\theta^\star}}+\gamma \theta^\star}.
     \end{align}
     $\theta^\star$ and $q\bp{\theta^\star}$ can be obtained from the Beveridge curve in Equation \eqref{beveridge}:
         \begin{align}
@@ -278,6 +278,11 @@ Predictably, the job-finding rate varies quite little with the productivity proc
     \input{../model/tables/equilibrium_range.tex}  \label{tab:range} 
 \end{table}
 
+Despite the low $b$, a worker still obtains a relatively high wage, almost as high as the productivity level.
+This is attributable to the large value of $\gamma$, which bolsters the worker's negotiating power.
+As this is the case for a low and high productivity alike, the model does not generate large enough swings in the firm value to push vacancy posting enough.
+This means that we cannot generate much variation in unemployment either, as one can see in the next question. 
+
 %------------------------------------------------------------------------
 \section*{Question 5: Towards \citet{hagedorn_cyclical_2008}}
 
@@ -291,30 +296,47 @@ My results are based on a $100$ year simulation ($T=5200$ periods, with a $20$-y
     \input{../model/tables/hm_table4.tex}  \label{tab:hm_table4}
 \end{table}
 
-Naturally, I expect the values to depend on three types of variables:
+Naturally, I expect the values to depend on three types of variables related to discretisation:
 \begin{itemize}
-    \item $\rho$ and $\sigma$: If one adjusts the productivity process, the business cycle properties will change, too.
+    \item $\bp{\rho,\sigma}$: If one adjusts the productivity process, the business cycle properties change (more below).
     \item $T$: Setting a too small value of $T$ may mean that we don't visit far ends of each tail.
     \item $N_p$: A coarse grid may mean that we fail to capture the correlation structure of the key labour variables.
     Too many grid points means that the tails are too rarely visited (unless $T$ is adjusted).
 \end{itemize}  
 
-For example, I check what happens when the number of grid points is adjusted. 
-Figures \ref{fig:correlation_sensitivity} and \ref{fig:stdev_sensitivity} illustrate how the key correlations and standard deviations change for different numbers of grid points. 
-Unsurprisingly, we cannot solve the Shimer puzzle this way - the volatility of unemployment is quite far from $0.125$.
+Changing $\rho$ even a little bit can matter a lot for volatility and the correlation structure of the key labour market variables.
+As illustrated in Figure \ref{fig:stdev_sensitivity_rho}, lowering $\rho$ suppresses volatility in other variables.  
+Figure \ref{fig:correlation_sensitivity_rho} fleshes out the sensitivity of the correlation structure.
+Still, we cannot solve the Shimer puzzle this way - the volatility of unemployment is quite far from $0.125$.
+
+\begin{figure}[H] \centering
+    \caption{Standard deviation sensitivity to changes in $\rho$}
+    \label{fig:stdev_sensitivity_rho}
+    \includegraphics[width=0.8\columnwidth]{../model/plots/discretisation_std_rho.pdf}
+\end{figure}
+\begin{figure}[H] \centering
+    \caption{Correlation sensitivity to changes in $\rho$}
+    \label{fig:correlation_sensitivity_rho}
+    \includegraphics[width=\columnwidth]{../model/plots/discretisation_corr_rho.pdf}
+\end{figure}
 
 
-\begin{figure} \centering
+At the same time, the model exhibits less sensitivity to the number of grid points (albeit very much if one is after very precise results or studying tail events). 
+Figures \ref{fig:stdev_sensitivity} and \ref{fig:correlation_sensitivity}illustrate how the key correlations and standard deviations change for different numbers of grid points. 
+
+\begin{figure}[H] \centering
+    \caption{Standard deviation sensitivity to changes in $N_p$}
+    \label{fig:stdev_sensitivity}
+    \includegraphics[width=0.8\columnwidth]{../model/plots/discretisation_std.pdf}
+\end{figure}
+
+\begin{figure}[H] \centering
     \caption{Correlation sensitivity to changes in $N_p$}
     \label{fig:correlation_sensitivity}
     \includegraphics[width=\columnwidth]{../model/plots/discretisation_corr.pdf}
 \end{figure}
 
-\begin{figure} \centering
-    \caption{Standard deviation sensitivity to changes in $N_p$}
-    \label{fig:stdev_sensitivity}
-    \includegraphics[width=0.8\columnwidth]{../model/plots/discretisation_std.pdf}
-\end{figure}
+
 
 %------------------------------------------------------------------------
 \section*{Question 6: \citet{hagedorn_cyclical_2008}'s parameters }
@@ -340,6 +362,7 @@ What matters for us is that the job filling and finding rates vary much more, wh
 
 Table \ref{tab:hm_table4HM} redoes Question 5. 
 I don't yet match the standard deviation from either the US data or \citet{hagedorn_cyclical_2008}, but my productivity process is much less volatile than in their case. 
+The value of firm is not suppressed enough to generate large vacancy swings. 
 
 \begin{table}[H] \centering
     \caption{Results from the calibrated model under alternative $\bp{b,\gamma}$}
@@ -353,7 +376,7 @@ In each figure, the horizontal axis sets a different $b$, between $0.25$ and $0.
 Then, different plots represent alternative values of $\gamma$, ranging between $0.05$ and $0.95$.\\
 
 Figure \ref{fig:sweep_ss}'s first panel illustrates different values of $c^\star$ (calibrated).
-The second and third panel show wages and firm values. 
+The second and third panel show wages and firm values at different values $b$ and $\gamma$. 
 At a low bargaining power parameter and a low unemployment benefit, $c^\star$ rises and $w^\star$ falls to ensure there is still the $5.5\%$ unemployment rate.
 
 \begin{figure}[H] \centering
@@ -362,18 +385,30 @@ At a low bargaining power parameter and a low unemployment benefit, $c^\star$ ri
     \includegraphics[width=\columnwidth]{../model/plots/sweep_ss.pdf}
 \end{figure}
 
-Figure \ref{fig:sweep_agg} highlights how the ranges between the hig
+Figure \ref{fig:sweep_agg} highlights how the ranges of the endogenous variables at different values of $b$ and $\gamma$.
+While all of the panels clearly indicate $b$ is dominant in impact flows, $\gamma$ matters for generating a lower wage. 
+Given that $\gamma$'s role is to \say{divide the pie,} it does not impact the way the flow variables behave. 
 
 \begin{figure}[H] \centering
     \caption{Experiment: Aggregate uncertainty ranges}
     \label{fig:sweep_agg}
     \includegraphics[width=\columnwidth]{../model/plots/sweep_range.pdf}
 \end{figure}
+
+Taking stock, $b$ has a dominant impact on flows, which makes it important in determining unemployment's volatility, as illustrated in Figure \ref{fig:sweep_volatility}.
+With a high value of $b$, the firm surplus is smaller, which makes it more vulnerable to swings in the productivity level.
+At the same time, both $\gamma$ and $b$ matter in generating the elasticity of wages with respect to the productivity process. 
+As $b$ becomes higher, the wage can move less -- it cannot go below $b$, but it also cannot exceed $p$, thereby reducing the elasticity estimate. 
+
 \begin{figure}[H] \centering
     \caption{Experiment: Simulation results}
     \label{fig:sweep_volatility}
     \includegraphics[width=\columnwidth]{../model/plots/sweep_moments.pdf}
 \end{figure}
+
+No, sticky wages are not needed to solve the Shimer puzzle/ generate an empirically realistic volatility of unemployment.
+A right level of $b$ (and to a lesser extent $\gamma$) can achieve this goal.
+There is a deeper question, however, of whether we are satisfied by solving the puzzle by forcing the parameters to achieve the values that solve it (rather than by calibrating them to the steady state moments). 
 
 \printbibliography
 
