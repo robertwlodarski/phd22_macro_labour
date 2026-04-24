@@ -256,8 +256,9 @@ Table \ref{tab:calibration} summarises the calibration exercise.
 The calibrated vacancy cost is relatively high, at around $39\%$ of the productivity value.
 Figure \ref{fig:calibration} indicates that the parameter is well-identified. 
 
-\begin{table}[H] \label{tab:calibration}
-    \input{../model/tables/calibration.tex}    
+\begin{table}[H] \centering
+    \caption{Steady-state calibration}
+    \input{../model/tables/calibration.tex}    \label{tab:calibration}
 \end{table}
 
 \begin{figure}[H] \centering 
@@ -270,7 +271,7 @@ Figure \ref{fig:calibration} indicates that the parameter is well-identified.
 
 I use the Rouwenhorst method to discretise the productivity process.
 This is more fitting for the highly persistent process, with $\rho \simeq 0.99$, than the Tauchen method.
-I set $15$ as the number of gridpoints. 
+I set $15$ as the number of grid points. 
 Table \ref{tab:range} summarises the values of all equilibrium objects at the minimum and maximum productivity grids. 
 Predictably, the job-finding rate varies quite little with the productivity process. 
 
@@ -278,7 +279,7 @@ Predictably, the job-finding rate varies quite little with the productivity proc
     \input{../model/tables/equilibrium_range.tex}  \label{tab:range} 
 \end{table}
 
-Despite the low $b$, a worker still obtains a relatively high wage, almost as high as the productivity level.
+Despite the rather low value of $b$, a worker still obtains a relatively high wage, almost as high as the productivity level.
 This is attributable to the large value of $\gamma$, which bolsters the worker's negotiating power.
 As this is the case for a low and high productivity alike, the model does not generate large enough swings in the firm value to push vacancy posting enough.
 This means that we cannot generate much variation in unemployment either, as one can see in the next question. 
@@ -361,8 +362,8 @@ What matters for us is that the job filling and finding rates vary much more, wh
 \end{table}
 
 Table \ref{tab:hm_table4HM} redoes Question 5. 
-I don't yet match the standard deviation from either the US data or \citet{hagedorn_cyclical_2008}, but my productivity process is much less volatile than in their case. 
-The value of firm is not suppressed enough to generate large vacancy swings. 
+I don't yet match the standard deviation from either the US data or \citet{hagedorn_cyclical_2008}, but it's worth pointing that my productivity process is much less volatile than in their case. 
+The firm value is not suppressed enough to generate large vacancy swings. 
 
 \begin{table}[H] \centering
     \caption{Results from the calibrated model under alternative $\bp{b,\gamma}$}
@@ -373,7 +374,7 @@ The value of firm is not suppressed enough to generate large vacancy swings.
 \section*{Question 7: Experimentation with $\bp{b,\gamma}$}
 In this question, I recompute the steady state and aggregate uncertainty versions of the model under alternative $\bp{b,\gamma}$ values. 
 In each figure, the horizontal axis sets a different $b$, between $0.25$ and $0.95$.
-Then, different plots represent alternative values of $\gamma$, ranging between $0.05$ and $0.95$.\\
+Then, different lines/ curves represent alternative values of $\gamma$, ranging between $0.05$ and $0.95$.\\
 
 Figure \ref{fig:sweep_ss}'s first panel illustrates different values of $c^\star$ (calibrated).
 The second and third panel show wages and firm values at different values $b$ and $\gamma$. 
@@ -385,9 +386,9 @@ At a low bargaining power parameter and a low unemployment benefit, $c^\star$ ri
     \includegraphics[width=\columnwidth]{../model/plots/sweep_ss.pdf}
 \end{figure}
 
-Figure \ref{fig:sweep_agg} highlights how the ranges of the endogenous variables at different values of $b$ and $\gamma$.
-While all of the panels clearly indicate $b$ is dominant in impact flows, $\gamma$ matters for generating a lower wage. 
-Given that $\gamma$'s role is to \say{divide the pie,} it does not impact the way the flow variables behave. 
+Figure \ref{fig:sweep_agg} shows the ranges of the endogenous variables at different values of $b$ and $\gamma$.
+While all of the panels clearly indicate $b$ is dominant in impacting flows, $\gamma$ matters for generating a lower wage. 
+Given that $\gamma$'s role is to \say{divide the pie,} it does not influence the way the flow variables behave. 
 
 \begin{figure}[H] \centering
     \caption{Experiment: Aggregate uncertainty ranges}
